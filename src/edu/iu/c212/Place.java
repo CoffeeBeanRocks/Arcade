@@ -8,6 +8,12 @@ public abstract class Place
     //private Arcade arcade; //reference to the Arcade
     private double entryFee;
 
+    public Place(String placeName, double entryFee)
+    {
+        this.placeName = placeName;
+        this.entryFee = entryFee;
+    }
+
     public abstract void onEnter(User user);
 
     @Override
