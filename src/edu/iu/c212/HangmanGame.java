@@ -17,7 +17,6 @@ public class HangmanGame extends Game implements IHangmanGame
         super("Hangman",5);
 
         String letters = "abcdefghijklmnopqrstuvwxyz";
-        List<Character> validLetters = new ArrayList<>();
         for(int i=0; i<letters.length(); i++)
             validLetters.add(letters.charAt(i));
         List<Character> guessedLetters = new ArrayList<>();
