@@ -12,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
 
 public class HangmanGame extends Game implements IHangmanGame
 {
@@ -68,37 +67,42 @@ public class HangmanGame extends Game implements IHangmanGame
         System.out.println("1) A random word has been chosen, you need to guess the word letter by letter");
         System.out.println("2) If you guess 6 incorrect letters you lose!");
 
-        while(!gameOver())  //TODO: Game loops does not exit when guesses have reached 6
+        while(!gameOver())
         {
             info.setText("You've guessed "+wrongAnswers+" times incorrectly ("+guessedLetters.toString()+")");
             info2.setText("The current word is: "+getBlurredWord(guessedLetters,word)+". Please enter a lowercase letter in the following lexicon to guess: "+getValidLexicon().toString());
 
-            //TODO: Fix user submission of data
-
             if(ans != null) //waiting for user input
             {
-                if(!containsChar(word,ans.charAt(0)))
-                    wrongAnswers++;
-                guessedLetters.add(ans.charAt(0));
-                ans = null;
+                if(ans.length() == 1 && validLetters.contains(ans.charAt(0))) //Input validation
+                {
+                    char c = ans.charAt(0);
+                    if(!containsChar(word,c))
+                        wrongAnswers++;
+                    guessedLetters.add(c);
+                    validLetters.remove(validLetters.indexOf(c));
+                }
+                else
+                    System.out.println("Bad input");
+                ans = null; //looking for new user input
             }
         }
 
-        info.setText("Game Over!");
-        info.setText("Game Over!");
-        System.exit(0);
-
         if(wrongAnswers >= 6) //player lost
         {
-
+            info.setText("You've guessed "+wrongAnswers+" times incorrectly, you lose!");
+            info2.setText("The word was: " + word);
+            //TODO: Close GUI and send player back to lobby
         }
         else //player won
         {
-
+            info.setText("You've guessed the correct word, you win!");
+            info2.setText("Congratulations on guessing the word "+word+". $15 has been added to your account!");
+            //TODO: Update Player money
         }
     }
 
-    private boolean containsChar(String word, char character)
+    public boolean containsChar(String word, char character)
     {
         for(int i=0; i<word.length(); i++)
         {
@@ -106,11 +110,6 @@ public class HangmanGame extends Game implements IHangmanGame
                 return true;
         }
         return false;
-    }
-
-    public static void setAns(String val)
-    {
-        ans = val;
     }
 
     private static class mainPanel extends JPanel
@@ -122,6 +121,7 @@ public class HangmanGame extends Game implements IHangmanGame
             this.setFocusable(true);
             this.requestFocusInWindow();
             setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS)); //creates vertical layout
+            //All the labels and text field being added to the panel
             add(new drawInfo());
             add(new drawInfo2());
             add(new textGuess());
@@ -160,7 +160,7 @@ public class HangmanGame extends Game implements IHangmanGame
                 @Override
                 public void actionPerformed(ActionEvent e)
                 {
-                    if(textField.getText().length()==1) //TODO: only accept valid answers
+                    if(textField.getText().length()==1)
                     {
                         ans = textField.getText();
                         textField.setText("");
@@ -170,19 +170,18 @@ public class HangmanGame extends Game implements IHangmanGame
         }
     }
 
-    public int getWrongAnswers()
-    {
-        return wrongAnswers;
-    }
-
     private boolean gameOver()
     {
-        for(int i=0; i<word.length(); i++)
+        int count = 0;
+        String blurredWord = getBlurredWord(guessedLetters,word);
+        for(int i=0; i<blurredWord.length(); i++)
         {
-            if(!guessedLetters.contains(word.charAt(i)) || getWrongAnswers() >= 6)
-                return false;
+            if(blurredWord.charAt(i) == '*')
+                count++;
         }
-        return true;
+        if(count == 0 || wrongAnswers >= 6)
+            return true;
+        return false;
     }
 
     public List<Character> getValidLexicon()
