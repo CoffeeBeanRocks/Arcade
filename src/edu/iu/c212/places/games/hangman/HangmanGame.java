@@ -23,7 +23,6 @@ public class HangmanGame extends Game implements IHangmanGame
     private static String ans = null;
 
     //GUI Variables
-    private static JLabel lettersRemaining;
     private static JTextField textField;
     private static JLabel info;
     private static JLabel info2;
@@ -37,7 +36,6 @@ public class HangmanGame extends Game implements IHangmanGame
         validLetters = new ArrayList<>();
         for(int i=0; i<letters.length(); i++)
             validLetters.add(letters.charAt(i));
-        List<Character> guessedLetters = new ArrayList<>();
     }
 
     @Override
