@@ -1,9 +1,9 @@
-package edu.iu.c212;
+package edu.iu.c212.places.games.hangman;
 
 import edu.iu.c212.models.User;
+import edu.iu.c212.places.games.Game;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class HangmanGame extends Game implements IHangmanGame
@@ -25,7 +25,8 @@ public class HangmanGame extends Game implements IHangmanGame
     @Override
     public void onEnter(User user)
     {
-
+        //main programming loop
+        //add GUI
     }
 
     private boolean gameOver()

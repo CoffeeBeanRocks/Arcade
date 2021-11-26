@@ -1,4 +1,4 @@
-package edu.iu.c212;
+package edu.iu.c212.places.games.hangman;
 
 import java.util.List;
 

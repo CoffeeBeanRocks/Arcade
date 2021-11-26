@@ -10,7 +10,7 @@ public enum Item
     private final String readableName;
     private final double value;
 
-    private Item(String readableName, double value)
+    Item(String readableName, double value)
     {
         this.readableName = readableName;
         this.value = value;
