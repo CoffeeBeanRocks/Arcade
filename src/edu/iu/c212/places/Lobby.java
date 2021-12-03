@@ -27,7 +27,7 @@ public class Lobby extends Place
         System.out.println("Welcome to the lobby!");
         System.out.println("Your balance is: $" + user.getBalance());
         Place p = ConsoleUtils.printMenuToConsole("Places",places,true);
-        while(p != this)
+        while(!p.getPlaceName().equals("Exit")) //p should never be null
         {
             if(p.getEntryFee() > user.getBalance())
                 System.out.println("You don't have enough money to enter!");
