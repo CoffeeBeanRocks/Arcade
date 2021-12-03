@@ -14,12 +14,20 @@ public abstract class Place
         this.entryFee = entryFee;
     }
 
+    public String getPlaceName() {
+        return placeName;
+    }
+
+    public double getEntryFee() {
+        return entryFee;
+    }
+
     public abstract void onEnter(User user);
 
     @Override
     public String toString()
     {
-        return "Name: "+placeName+" Entry Fee: "+entryFee;
+        return "Name: "+placeName+" Entry Fee: $"+entryFee + " Game: False";
     }
     //This should return the place name, the entry fee, and whether the place is a game or not
 }

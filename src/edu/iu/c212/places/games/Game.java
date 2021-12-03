@@ -15,6 +15,6 @@ public abstract class Game extends Place
     @Override
     public String toString()
     {
-        return super.toString()+" Game: True";
+        return "Name: "+super.getPlaceName()+" Entry Fee: $"+super.getEntryFee() + " Game: True";
     }
 }
