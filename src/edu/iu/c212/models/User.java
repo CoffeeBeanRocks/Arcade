@@ -31,6 +31,16 @@ public class User
         this.balance = balance;
     }
 
+    public void subtractValueFromBalance(double value)
+    {
+        this.balance -= value;
+    }
+
+    public void addValueToBalance(double value)
+    {
+        this.balance += value;
+    }
+
     public List<Item> getInventory() {
         return inventory;
     }

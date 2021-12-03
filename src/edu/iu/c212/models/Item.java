@@ -16,6 +16,14 @@ public enum Item
         this.value = value;
     }
 
+    public String getReadableName() {
+        return readableName;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
     @Override
     public String toString()
     {
