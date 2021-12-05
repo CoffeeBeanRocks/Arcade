@@ -11,15 +11,30 @@ public class ConsoleUtils {
      * This reads a line from the console using the scanner
      */
     public static String readLineFromConsole() {
-        return null;
+        Scanner scan = new Scanner(System.in);
+        return scan.nextLine();
     }
 
     /**
      * This method will read a line from the user using readLineFromConsole. It will try to parse this to an integer, and invoke the condition.
      * If the condition returns false, or else if this is not an integer, it will print the failure message and ask the user to input again.
      */
-    public static int readIntegerLineFromConsoleOrElseComplainAndRetry(Function<Integer, Boolean> condition, String failureMessage) {
-        return 0;
+    public static int readIntegerLineFromConsoleOrElseComplainAndRetry(Function<Integer, Boolean> condition, String failureMessage)
+    {
+        int ans = -1000;
+        while(ans == -1000)
+        {
+            try
+            {
+                ans = Integer.parseInt(readLineFromConsole());
+            }
+            catch (Exception e)
+            {
+                System.out.println(e.getMessage());
+                System.out.println("Try again!");
+            }
+        }
+        return ans;
     }
 
     /**
