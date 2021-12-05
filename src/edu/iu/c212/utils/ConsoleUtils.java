@@ -23,15 +23,16 @@ public class ConsoleUtils {
     {
         try
         {
-            condition.apply(Integer.parseInt(readLineFromConsole()));
-            return Integer.parseInt(readLineFromConsole());
+            if(condition.apply(Integer.parseInt(readLineFromConsole())))
+                return Integer.parseInt(readLineFromConsole());
         }
         catch (Exception e)
         {
-            System.out.println(failureMessage);
-            System.out.println("Try a different input!");
-            return readIntegerLineFromConsoleOrElseComplainAndRetry(condition, failureMessage);
+            //Same as if the number entered failed the condition
         }
+        System.out.println(failureMessage);
+        System.out.println("Try a different input!");
+        return readIntegerLineFromConsoleOrElseComplainAndRetry(condition, failureMessage);
     }
 
     /**
