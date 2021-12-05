@@ -52,10 +52,12 @@ public class GuessTheNumberGame extends Game {
 				}
 			}
 			guessesRemain --;
-			
 		}
-			
-		System.out.println("You got it wrong :( The correct answer is: " + ans);
+
+		if (guess != ans) {
+
+			System.out.println("You got it wrong :( The correct answer is: " + ans);
+		}
 	}
 
 }

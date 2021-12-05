@@ -49,7 +49,8 @@ public class ConsoleUtils {
     public static <T> T printMenuToConsole(String menuTitle, List<T> options, boolean shouldUserSelectAnOption) {
         System.out.println("=========");
         System.out.println(menuTitle);
-        for (int i = 0; i < options.size(); i++) System.out.println("" + (i + 1) + ": " + options.get(i));
+        for (int i = 0; i < options.size(); i++)
+            System.out.println("" + (i + 1) + ": " + options.get(i));
         System.out.println("=========");
 
         if (shouldUserSelectAnOption) {

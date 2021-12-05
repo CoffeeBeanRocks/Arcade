@@ -24,7 +24,7 @@ public class Arcade implements IArcade
     public Arcade()
     {
         currentUser = getUserOnArcadeEntry();
-        allPlaces = Arrays.asList(new BlackjackGame(), new HangmanGame(), new Store(), new Inventory(), new Lobby());
+        allPlaces = Arrays.asList(new BlackjackGame(), new HangmanGame(), new Store(), new Inventory(), new Lobby(this));
         transitionArcadeState("Lobby");
     }
 
@@ -55,9 +55,23 @@ public class Arcade implements IArcade
     }
 
     @Override
-    public void transitionArcadeState(String newPlaceNameToGoTo)
+    public void transitionArcadeState(String newPlaceNameToGoTo) //TODO: Make sure this function doesn't recurse infinitely
     {
-        //TODO: what is this even supposed to do???
+        for(Place p : allPlaces)
+        {
+            if(p.getPlaceName().equals(newPlaceNameToGoTo))
+            {
+                if(currentUser.getBalance() < p.getEntryFee())
+                {
+                    System.out.println("You do not have enough money, transitioning to lobby!");
+                    transitionArcadeState("Lobby");
+                }
+                else
+                    p.onEnter(currentUser);
+            }
+        }
+        System.err.println("\""+newPlaceNameToGoTo+"\" does not exist, transitioning back to lobby");
+        transitionArcadeState("Lobby");
     }
 
     @Override
@@ -89,6 +103,6 @@ public class Arcade implements IArcade
     @Override
     public List<Place> getAllPlaces()
     {
-        return getAllPlaces();
+        return allPlaces;
     }
 }
