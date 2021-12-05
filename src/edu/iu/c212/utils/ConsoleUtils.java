@@ -21,18 +21,21 @@ public class ConsoleUtils {
      */
     public static int readIntegerLineFromConsoleOrElseComplainAndRetry(Function<Integer, Boolean> condition, String failureMessage)
     {
-        try
+        String ans;
+        while (true)
         {
-            if(condition.apply(Integer.parseInt(readLineFromConsole())))
-                return Integer.parseInt(readLineFromConsole());
+            ans = readLineFromConsole();
+            try
+            {
+                if(condition.apply(Integer.parseInt(ans)))
+                    break;
+            }
+            catch (Exception ignored){}
+
+            System.out.println(failureMessage);
+            System.out.println("Try again!");
         }
-        catch (Exception e)
-        {
-            //Same as if the number entered failed the condition
-        }
-        System.out.println(failureMessage);
-        System.out.println("Try a different input!");
-        return readIntegerLineFromConsoleOrElseComplainAndRetry(condition, failureMessage);
+        return Integer.parseInt(ans);
     }
 
     /**
