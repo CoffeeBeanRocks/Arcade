@@ -10,9 +10,9 @@ public class ConsoleUtils {
     /**
      * This reads a line from the console using the scanner
      */
-    public static String readLineFromConsole() {
-        Scanner scan = new Scanner(System.in);
-        return scan.nextLine();
+    public static String readLineFromConsole()
+    {
+        return scanner.nextLine();
     }
 
     /**
