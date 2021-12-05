@@ -21,20 +21,17 @@ public class ConsoleUtils {
      */
     public static int readIntegerLineFromConsoleOrElseComplainAndRetry(Function<Integer, Boolean> condition, String failureMessage)
     {
-        int ans = -1000;
-        while(ans == -1000)
+        try
         {
-            try
-            {
-                ans = Integer.parseInt(readLineFromConsole());
-            }
-            catch (Exception e)
-            {
-                System.out.println(e.getMessage());
-                System.out.println("Try again!");
-            }
+            condition.apply(Integer.parseInt(readLineFromConsole()));
+            return Integer.parseInt(readLineFromConsole());
         }
-        return ans;
+        catch (Exception e)
+        {
+            System.out.println(failureMessage);
+            System.out.println("Try a different input!");
+            return readIntegerLineFromConsoleOrElseComplainAndRetry(condition, failureMessage);
+        }
     }
 
     /**
