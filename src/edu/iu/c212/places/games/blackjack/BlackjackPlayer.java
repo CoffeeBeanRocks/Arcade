@@ -13,16 +13,12 @@ public class BlackjackPlayer extends BlackjackParticipant {
 			for (int z = 0; z < 4; z ++) {
 				
 				cards.add(i + 1);
-				
 			}
-			
 		}
 		
 		handTotals = new int[2];
 		hit();
 		hit();
-		
-		
 	}
 	
 	public String getCurrentTotalsString() {
@@ -30,11 +26,9 @@ public class BlackjackPlayer extends BlackjackParticipant {
 		if (handTotals[0] != handTotals[1] && (handTotals[0] <= 21 || handTotals[1] <= 21)) {
 			
 			return handTotals[0] + " " + handTotals[1];
-			
 		}
 			
 		return String.valueOf(handTotals[0]);
-			
 	}
 	
 	@Override
@@ -42,7 +36,4 @@ public class BlackjackPlayer extends BlackjackParticipant {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	
-	
 }

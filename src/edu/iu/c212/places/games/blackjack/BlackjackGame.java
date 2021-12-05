@@ -29,10 +29,9 @@ public class BlackjackGame extends Game
 	public static JButton hit = new JButton("Hit");
 	public static JButton stay = new JButton("Stay");
 	
-	public BlackjackGame(String placeName, double entryFee) {
-		
-		super(placeName, entryFee);
-		
+	public BlackjackGame()
+	{
+		super("Blackjack", 20);
 	}
 
 	@Override
@@ -207,7 +206,7 @@ public class BlackjackGame extends Game
 	
 	public static void main(String[] args) {
 		
-		BlackjackGame view = new BlackjackGame("Blackjack", 20);
+		BlackjackGame view = new BlackjackGame();
 		
 		Item bear = Item.BEAR;
 		
