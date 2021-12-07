@@ -6,6 +6,8 @@ import edu.iu.c212.places.Inventory;
 import edu.iu.c212.places.Lobby;
 import edu.iu.c212.places.Place;
 import edu.iu.c212.places.Store;
+import edu.iu.c212.places.games.GuessTheNumberGame;
+import edu.iu.c212.places.games.TriviaGame;
 import edu.iu.c212.places.games.blackjack.BlackjackGame;
 import edu.iu.c212.places.games.hangman.HangmanGame;
 import edu.iu.c212.utils.ConsoleUtils;
@@ -24,7 +26,7 @@ public class Arcade implements IArcade
     public Arcade()
     {
         currentUser = getUserOnArcadeEntry();
-        allPlaces = Arrays.asList(new BlackjackGame(), new HangmanGame(), new Store(), new Inventory(), new Lobby(this));
+        allPlaces = Arrays.asList(new BlackjackGame(), new HangmanGame(), new GuessTheNumberGame(), new TriviaGame(), new Store(), new Inventory(), new Lobby(this));
         transitionArcadeState("Lobby");
     }
 
@@ -55,7 +57,7 @@ public class Arcade implements IArcade
     }
 
     @Override
-    public void transitionArcadeState(String newPlaceNameToGoTo) //TODO: Make sure this function doesn't recurse infinitely
+    public void transitionArcadeState(String newPlaceNameToGoTo)
     {
         for(Place p : allPlaces)
         {
@@ -70,8 +72,9 @@ public class Arcade implements IArcade
                     p.onEnter(currentUser);
             }
         }
-        System.err.println("\""+newPlaceNameToGoTo+"\" does not exist, transitioning back to lobby");
-        transitionArcadeState("Lobby");
+        System.err.println("\""+newPlaceNameToGoTo+"\" does not exist, exiting program");
+        System.exit(0);
+        //transitionArcadeState("Lobby");
     }
 
     @Override

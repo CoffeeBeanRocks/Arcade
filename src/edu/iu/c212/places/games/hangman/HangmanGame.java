@@ -61,7 +61,6 @@ public class HangmanGame extends Game implements IHangmanGame
         }
 
         //game loop
-        //TODO: Add instructions to GUI?
         System.out.println("You've entered hangman! Here are the rules: ");
         System.out.println("1) A random word has been chosen, you need to guess the word letter by letter");
         System.out.println("2) If you guess 6 incorrect letters you lose!");

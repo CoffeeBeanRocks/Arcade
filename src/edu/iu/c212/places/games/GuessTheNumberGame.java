@@ -11,8 +11,8 @@ import edu.iu.c212.utils.ConsoleUtils;
 
 public class GuessTheNumberGame extends Game {
 
-	public GuessTheNumberGame(String placeName, double entryFee) {
-		super(placeName, entryFee);
+	public GuessTheNumberGame() {
+		super("Guess the Number", 5);
 		// TODO Auto-generated constructor stub
 	}
 
