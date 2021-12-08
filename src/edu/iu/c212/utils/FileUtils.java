@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FileUtils {
-    private static File file = new File("src/users.txt"); //TODO: Add file location
+    private static File file = new File("src/users.txt");
 
     // line format:
     // user_name|balance|item1,item2,item3
@@ -30,7 +30,7 @@ public class FileUtils {
         {
             contents += u.getUsername()+"|";
             contents += u.getBalance()+"|";
-            for(Item i : u.getInventory())
+            for(Item i : u.getInventory()) //TODO: Check this doesn't throw an error if inventory length is 0
                 contents+=i.getReadableName()+",";
             contents = contents.substring(0,contents.length()-1)+"\n"; //remove final comma
         }
@@ -46,14 +46,21 @@ public class FileUtils {
     {
         Scanner scan = new Scanner(file);
         List<User> users = new ArrayList<>();
-        while(scan.hasNextLine())
+        while(scan.hasNextLine()) //TODO: Test when inventory is empty
         {
             String[] userData = scan.nextLine().split("|");
-            String[] itemNames = userData[2].split(",");
-            List<Item> items = new ArrayList<>();
-            for(int i=0; i<itemNames.length; i++)
-                items.add(Item.valueOf(itemNames[i]));
-            users.add(new User(userData[0],Double.parseDouble(userData[1]),items));
+            if(userData.length > 2)
+            {
+                String[] itemNames = userData[2].split(",");
+                List<Item> items = new ArrayList<>();
+                for(int i=0; i<itemNames.length; i++)
+                    items.add(Item.valueOf(itemNames[i]));
+                users.add(new User(userData[0],Double.parseDouble(userData[1]),items));
+            }
+            else
+            {
+                users.add(new User(userData[0],Double.parseDouble(userData[1]),new ArrayList<>()));
+            }
         }
         return users;
     }

@@ -27,7 +27,7 @@ public class Arcade implements IArcade
     {
         allUsers = new ArrayList<>();
         allPlaces = Arrays.asList(new BlackjackGame(), new HangmanGame(), new GuessTheNumberGame(), new TriviaGame(), new Store(), new Inventory(), new Lobby(this));
-
+        //TODO: Add an exit!
         currentUser = getUserOnArcadeEntry();
         transitionArcadeState("Lobby");
     }
@@ -69,6 +69,7 @@ public class Arcade implements IArcade
             case "Trivia" -> allPlaces.get(3).onEnter(currentUser);
             case "Store" -> allPlaces.get(4).onEnter(currentUser);
             case "Inventory" -> allPlaces.get(5).onEnter(currentUser);
+
         }
         allPlaces.get(6).onEnter(currentUser); //transition back to lobby
     }
