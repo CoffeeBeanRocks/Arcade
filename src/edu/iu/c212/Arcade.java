@@ -82,7 +82,7 @@ public class Arcade implements IArcade
         User user = null;
         for(User u : getUserSaveDataFromFile())
         {
-            if(user.getUsername().equals(username))
+            if(u.getUsername().equals(username))
             {
                 user = u;
                 System.out.println("Welcome back " + username);

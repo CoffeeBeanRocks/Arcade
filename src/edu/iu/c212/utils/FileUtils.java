@@ -24,13 +24,14 @@ public class FileUtils {
      */
     public static void writeUserDataToFile(List<User> users) throws IOException
     {
+        //TODO: Replaces all user data with each invocation
         FileWriter myWriter = new FileWriter(file);
         String contents = "";
         for(User u : users)
         {
             contents += u.getUsername()+"|";
             contents += u.getBalance()+"|";
-            for(Item i : u.getInventory()) //TODO: Check this doesn't throw an error if inventory length is 0
+            for(Item i : u.getInventory()) //TODO: Test what is written the inventory is empty
                 contents+=i.getReadableName()+",";
             contents = contents.substring(0,contents.length()-1)+"\n"; //remove final comma
         }
@@ -48,9 +49,11 @@ public class FileUtils {
         List<User> users = new ArrayList<>();
         while(scan.hasNextLine()) //TODO: Test when inventory is empty
         {
-            String[] userData = scan.nextLine().split("|");
+            String[] userData = scan.nextLine().split("\\|"); //there needs to be an escape sequence before the line because "|" is a metacharacter
             if(userData.length > 2)
             {
+                for(String s : userData)
+                    System.out.println(s);
                 String[] itemNames = userData[2].split(",");
                 List<Item> items = new ArrayList<>();
                 for(int i=0; i<itemNames.length; i++)
@@ -58,9 +61,7 @@ public class FileUtils {
                 users.add(new User(userData[0],Double.parseDouble(userData[1]),items));
             }
             else
-            {
                 users.add(new User(userData[0],Double.parseDouble(userData[1]),new ArrayList<>()));
-            }
         }
         return users;
     }
