@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FileUtils {
-    private static File file = new File("your-file-location-here"); //TODO: Add file location
+    private static File file = new File("src/users.txt"); //TODO: Add file location
 
     // line format:
     // user_name|balance|item1,item2,item3

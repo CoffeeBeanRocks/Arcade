@@ -25,8 +25,10 @@ public class Arcade implements IArcade
 
     public Arcade()
     {
-        currentUser = getUserOnArcadeEntry();
+        allUsers = new ArrayList<>();
         allPlaces = Arrays.asList(new BlackjackGame(), new HangmanGame(), new GuessTheNumberGame(), new TriviaGame(), new Store(), new Inventory(), new Lobby(this));
+
+        currentUser = getUserOnArcadeEntry();
         transitionArcadeState("Lobby");
     }
 
@@ -59,22 +61,16 @@ public class Arcade implements IArcade
     @Override
     public void transitionArcadeState(String newPlaceNameToGoTo)
     {
-        for(Place p : allPlaces)
+        switch (newPlaceNameToGoTo)
         {
-            if(p.getPlaceName().equals(newPlaceNameToGoTo))
-            {
-                if(currentUser.getBalance() < p.getEntryFee())
-                {
-                    System.out.println("You do not have enough money, transitioning to lobby!");
-                    transitionArcadeState("Lobby");
-                }
-                else
-                    p.onEnter(currentUser);
-            }
+            case "Blackjack" -> allPlaces.get(0).onEnter(currentUser);
+            case "Hangman" -> allPlaces.get(1).onEnter(currentUser);
+            case "Guess the Number" -> allPlaces.get(2).onEnter(currentUser);
+            case "Trivia" -> allPlaces.get(3).onEnter(currentUser);
+            case "Store" -> allPlaces.get(4).onEnter(currentUser);
+            case "Inventory" -> allPlaces.get(5).onEnter(currentUser);
         }
-        System.err.println("\""+newPlaceNameToGoTo+"\" does not exist, exiting program");
-        System.exit(0);
-        //transitionArcadeState("Lobby");
+        allPlaces.get(6).onEnter(currentUser); //transition back to lobby
     }
 
     @Override
@@ -91,15 +87,16 @@ public class Arcade implements IArcade
                 System.out.println("Welcome back " + username);
                 break;
             }
-            else
-            {
-                allUsers.add(new User(username, 50, new ArrayList<Item>()));
-                user = allUsers.get(allUsers.size()-1);
-                saveUsersToFile(); //TODO: Rewrite entire file every invocation
-                //TODO: User starting balance?
-                System.out.println("Welcome " + username);
-            }
         }
+        if(user == null)
+        {
+            allUsers.add(new User(username, 50, new ArrayList<Item>()));
+            user = allUsers.get(allUsers.size()-1);
+            saveUsersToFile();
+            //TODO: User starting balance?
+            System.out.println("Welcome " + username);
+        }
+        currentUser = user;
         return user;
     }
 

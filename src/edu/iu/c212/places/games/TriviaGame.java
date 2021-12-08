@@ -15,13 +15,11 @@ public class TriviaGame extends Game{
 
 	public TriviaGame() {
 		super("Trivia", 0);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void onEnter(User user) {
-		// TODO Auto-generated method stub
-		
+	public void onEnter(User user)
+	{
 		Scanner keyboard = new Scanner(System.in);
 		
 		int questionsAsked = 0;
@@ -29,39 +27,27 @@ public class TriviaGame extends Game{
 		List<TriviaQuestion> questions= new ArrayList<TriviaQuestion>();
 		
 		try {
-			
 			questions = HttpUtils.getTriviaQuestions(5);
 		} 
 		catch (IOException e) {
-			
 			System.out.println(e);
 		}
 		
 		System.out.println("Welcome to C212 Trivia. You get $2 for every correct answer - there are 5 total questions in this trivia round");
 		
 		while (questionsAsked != 5) {
-			
 			System.out.println("=========");
-			
 			System.out.println("You're on question #" + (questionsAsked + 1) + ". Ready?");
 			System.out.println(questions.get(questionsAsked).getQuestion());
-			
 			List<String> listQuestions= new ArrayList<String>();
-			
 			listQuestions = questions.get(questionsAsked).getIncorrectAnswers();
-			
 			listQuestions.add(questions.get(questionsAsked).getCorrectAnswer());
-			
 			Collections.shuffle(listQuestions);
-			
+
 			int i = 0;
-			
 			while (i < listQuestions.size()) {
-				
 				System.out.println(i + 1 + ".) " + listQuestions.get(i));
-				
 				i ++;
-				
 			}
 			
 			System.out.println("=========");
@@ -75,31 +61,17 @@ public class TriviaGame extends Game{
 				System.out.println("You got it right! You got $2");
 				user.addValueToBalance(2);
 				right ++;
-				
 			}
-			 
 			else {
-				
 				System.out.println("You got it wrong :( The correct answer is: " + questions.get(questionsAsked).getCorrectAnswer());
-				
 			}
-			
 			questionsAsked ++;
-			
 		}
-		
 		if (right < 3) {
-			
 			System.out.println("Aww, good try. You got " + right + " right");
-			
 		}
-		
 		else {
-			
 			System.out.println("Nice! You got " + right + " right");
-			
 		}
-		
 	}
-
 }
