@@ -41,6 +41,9 @@ public class HangmanGame extends Game implements IHangmanGame
     @Override
     public void onEnter(User user)
     {
+        //Entry Fee
+        user.subtractValueFromBalance(5);
+
         //add GUI
         JFrame frame = new JFrame("Hangman");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -90,13 +93,13 @@ public class HangmanGame extends Game implements IHangmanGame
         {
             info.setText("You've guessed "+wrongAnswers+" times incorrectly, you lose!");
             info2.setText("The word was: " + word);
-            //TODO: Close GUI and send player back to lobby
+            //TODO: Close GUI
         }
         else //player won
         {
             info.setText("You've guessed the correct word, you win!");
             info2.setText("Congratulations on guessing the word "+word+". $15 has been added to your account!");
-            //TODO: Update Player money
+            user.addValueToBalance(15);
         }
     }
 

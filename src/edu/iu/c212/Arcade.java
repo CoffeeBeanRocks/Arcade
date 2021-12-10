@@ -25,7 +25,13 @@ public class Arcade implements IArcade
 
     public Arcade()
     {
-        allUsers = new ArrayList<>();
+        try {
+            allUsers = FileUtils.getUserDataFromFile();
+        }
+        catch (Exception e)
+        {
+            allUsers = new ArrayList<>();
+        }
         allPlaces = Arrays.asList(new BlackjackGame(), new HangmanGame(), new GuessTheNumberGame(), new TriviaGame(), new Store(), new Inventory(), new Lobby(this));
         //TODO: Add an exit!
         currentUser = getUserOnArcadeEntry();
@@ -69,35 +75,43 @@ public class Arcade implements IArcade
             case "Trivia" -> allPlaces.get(3).onEnter(currentUser);
             case "Store" -> allPlaces.get(4).onEnter(currentUser);
             case "Inventory" -> allPlaces.get(5).onEnter(currentUser);
-
         }
+        try {
+            FileUtils.writeUserDataToFile(allUsers);
+        }
+        catch (Exception ignored){}
         allPlaces.get(6).onEnter(currentUser); //transition back to lobby
     }
 
     @Override
     public User getUserOnArcadeEntry()
     {
-        System.out.println("Enter username: ");
-        String username = ConsoleUtils.readLineFromConsole();
         User user = null;
-        for(User u : getUserSaveDataFromFile())
-        {
-            if(u.getUsername().equals(username))
+        try {
+            System.out.println("Enter username: ");
+            String username = ConsoleUtils.readLineFromConsole();
+            System.out.println(FileUtils.getUserDataFromFile().size());
+
+            for(User u : FileUtils.getUserDataFromFile())
             {
-                user = u;
-                System.out.println("Welcome back " + username);
-                break;
+                if(u.getUsername().equals(username))
+                {
+                    user = u;
+                    System.out.println("Welcome back " + username);
+                    break;
+                }
             }
+            if(user == null)
+            {
+                allUsers.add(new User(username, 50, new ArrayList<Item>())); //TODO: User starting balance?
+                user = allUsers.get(allUsers.size()-1);
+                FileUtils.writeUserDataToFile(allUsers);
+                System.out.println("Welcome " + username);
+            }
+            currentUser = user;
+
         }
-        if(user == null)
-        {
-            allUsers.add(new User(username, 50, new ArrayList<Item>()));
-            user = allUsers.get(allUsers.size()-1);
-            saveUsersToFile();
-            //TODO: User starting balance?
-            System.out.println("Welcome " + username);
-        }
-        currentUser = user;
+        catch (Exception ignored){}
         return user;
     }
 

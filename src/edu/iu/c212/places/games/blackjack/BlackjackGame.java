@@ -195,31 +195,8 @@ public class BlackjackGame extends Game
 					
 					winLose.setText("You win");
 					myUser.addValueToBalance(50);
-					
 				}
-				
 			}
-			
 		}
-			
 	}
-	
-	public static void main(String[] args) {
-		
-		BlackjackGame view = new BlackjackGame();
-		
-		Item bear = Item.BEAR;
-		
-		ArrayList<Item> inventory = new ArrayList<Item>();
-		
-		inventory.add(bear);
-		
-		myUser = new User("Ayush", 50, inventory);
-		
-		//myUser.subtractValueFromBalance(20);
-		//System.out.println(myUser.getBalance());
-		view.onEnter(myUser);
-		
-	}
-
 }
