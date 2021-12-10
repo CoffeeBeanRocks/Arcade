@@ -24,14 +24,13 @@ public class FileUtils {
      */
     public static void writeUserDataToFile(List<User> users) throws IOException
     {
-        //TODO: Replaces all user data with each invocation
         FileWriter myWriter = new FileWriter(file);
         String contents = "";
         for(User u : users)
         {
             contents += u.getUsername()+"|";
             contents += u.getBalance()+"|";
-            for(Item i : u.getInventory()) //TODO: Test what is written the inventory is empty
+            for(Item i : u.getInventory()) //TODO: Test what is written when the inventory is empty
                 contents+=i.getReadableName()+",";
             contents = contents.substring(0,contents.length()-1)+"\n"; //remove final comma
         }
@@ -72,5 +71,10 @@ public class FileUtils {
                 return i;
         }
         throw new IllegalArgumentException("Item not found in inventory!");
+    }
+
+    public static void saveGame() throws IOException
+    {
+        writeUserDataToFile(getUserDataFromFile());
     }
 }

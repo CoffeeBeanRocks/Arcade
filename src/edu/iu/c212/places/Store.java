@@ -3,6 +3,7 @@ package edu.iu.c212.places;
 import edu.iu.c212.models.Item;
 import edu.iu.c212.models.User;
 import edu.iu.c212.utils.ConsoleUtils;
+import edu.iu.c212.utils.FileUtils;
 
 import java.util.Arrays;
 
@@ -31,7 +32,7 @@ public class Store extends Place
                     {
                        user.getInventory().remove(user.getInventory().indexOf(i));
                        user.addValueToBalance(i.getValue()*.5);
-                       System.out.println("You have sold " + i.getReadableName() + " for $" + i.getValue());
+                       System.out.println("You have sold " + i.getReadableName() + " for $" + i.getValue()*.5);
                     }
                 }
             }
@@ -50,6 +51,10 @@ public class Store extends Place
                     }
                 }
             }
+            try {
+                FileUtils.saveGame();
+            }
+            catch (Exception ignored){}
             ans = ConsoleUtils.printMenuToConsole("Store", Arrays.asList(StoreAction.values()),true);
         }
     }

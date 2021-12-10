@@ -5,6 +5,7 @@ import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -23,16 +24,22 @@ public class BlackjackGame extends Game
 	private BlackjackPlayer myPlayer;
 	private BlackjackDealer myDealer;
 	public static boolean bust;
-	public static JLabel totalsLabel = new JLabel();
-	public static JLabel dealerLabel = new JLabel();
-	public static JLabel winLose = new JLabel();
-	public static JButton hit = new JButton("Hit");
-	public static JButton stay = new JButton("Stay");
+	public static JLabel totalsLabel;
+	public static JLabel dealerLabel;
+	public static JLabel winLose;
+	public static JButton hit;
+	public static JButton stay;
 
 	public BlackjackGame() {
 
 		super("Blackjack", 20);
-
+		this.winLose=new JLabel("");
+		totalsLabel = new JLabel();
+		dealerLabel = new JLabel();
+		winLose = new JLabel();
+		hit = new JButton("Hit");
+		stay = new JButton("Stay");
+		bust = false;
 	}
 
 	@Override
@@ -47,6 +54,8 @@ public class BlackjackGame extends Game
 
 		myUser.subtractValueFromBalance(20);
 
+		System.out.println("Dealer: " + myDealer.handTotals[1] + " myPlayer: "+myPlayer.handTotals[1]);
+
 		JFrame frame = new JFrame("Blackjack");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -59,41 +68,32 @@ public class BlackjackGame extends Game
 
 		if (myPlayer.handTotals[0] < 21 && myPlayer.handTotals[1] > 21) {
 
-			totalsLabel.setText("Your hands: " + myPlayer.handTotals[0] + "bust");
+			totalsLabel.setText("Your hands(A = 1 | A = 11): " + myPlayer.handTotals[0] + " | bust");
 
 		}
 
 		else {
 
-			totalsLabel.setText("Your hands: " + myPlayer.handTotals[0] + " | " + myPlayer.handTotals[1]);
+			totalsLabel.setText("Your hands(A = 1 | A = 11): " + myPlayer.handTotals[0] + " | " + myPlayer.handTotals[1]);
 
 		}
 
-		totalsLabel.setText("Your hands: " + myPlayer.handTotals[0] + " | " + myPlayer.handTotals[1]);
-
-		if (myPlayer.handTotals[0] == 21 || myPlayer.handTotals[1] == 21) {
+		if (myPlayer.handTotals[0] == 21 || myPlayer.handTotals[1] == 21 && myDealer.getBestTotal() != 21) {
 
 			hit.setEnabled(false);
 			stay.setEnabled(false);
 			winLose.setText("You win");
+			System.out.println(myPlayer.handTotals[0] + " | " + myPlayer.handTotals[1]);
 			myUser.addValueToBalance(50);
 
 		}
 
-		else if (myDealer.handTotals[0] == 21 || myDealer.handTotals[1] == 21) {
+		else if (myDealer.getBestTotal() == 21) {
 
 			hit.setEnabled(false);
 			stay.setEnabled(false);
 			winLose.setText("You lose");
-
-		}
-
-		else if (myDealer.getBestTotal() == 21 && (myPlayer.handTotals[0] == 21 || myPlayer.handTotals[1] == 21)) {
-
-			hit.setEnabled(false);
-			stay.setEnabled(false);
-			winLose.setText("Tie");
-			myUser.addValueToBalance(20);
+			dealerLabel.setText("Dealer has Blackjack");
 
 		}
 
@@ -135,19 +135,29 @@ public class BlackjackGame extends Game
 			if (myPlayer.handTotals[0] > 21 && myPlayer.handTotals[1] > 21) {
 
 				bust = true;
-				totalsLabel.setText("Your hands: bust | bust");
+				totalsLabel.setText("Your hands(A = 1 | A = 11): bust | bust");
 
 			}
 
 			else if (myPlayer.handTotals[0] < 21 && myPlayer.handTotals[1] > 21) {
 
-				totalsLabel.setText("Your hands: " + myPlayer.handTotals[0] + " | bust");
+				totalsLabel.setText("Your hands(A = 1 | A = 11): " + myPlayer.handTotals[0] + " | bust");
+
+			}
+
+			else if (myPlayer.handTotals[0] == 21 || myPlayer.handTotals[1] == 21) {
+
+				totalsLabel.setText("Your hands(A = 1 | A = 11): " + myPlayer.handTotals[0] + " | " + myPlayer.handTotals[1]);
+				hit.setEnabled(false);
+				stay.setEnabled(false);
+				winLose.setText("You win");
+				myUser.addValueToBalance(50);
 
 			}
 
 			else {
 
-				totalsLabel.setText("Your hands: " + myPlayer.handTotals[0] + " | " + myPlayer.handTotals[1]);
+				totalsLabel.setText("Your hands(A = 1 | A = 11): " + myPlayer.handTotals[0] + " | " + myPlayer.handTotals[1]);
 
 			}
 
@@ -159,10 +169,7 @@ public class BlackjackGame extends Game
 				winLose.setText("You Lose");
 
 			}
-
 		}
-
-
 	}
 
 	private class StayButtonListener implements ActionListener {
@@ -186,28 +193,20 @@ public class BlackjackGame extends Game
 
 			}
 
-			System.out.println(myDealer.handTotals[0]);
-			System.out.println(myDealer.handTotals[1]);
+			if (!bust) {
 
-			if (bust == false) {
 
-				if (myDealer.getBestTotal() > myPlayer.handTotals[0] && myDealer.getBestTotal() > myPlayer.handTotals[1] && myPlayer.handTotals[1] < 21) {
+				//18
 
-					winLose.setText("You lose");
+				if ((myPlayer.handTotals[1] <= 21 && myPlayer.handTotals[1] > myDealer.getBestTotal()) || myPlayer.handTotals[0] > myDealer.getBestTotal()) {
 
-				}
-
-				else if (myDealer.getBestTotal() == myPlayer.handTotals[0] || myDealer.getBestTotal() == myPlayer.handTotals[1]) {
-
-					winLose.setText("Tie");
-					myUser.addValueToBalance(20);
+					winLose.setText("You win");
 
 				}
 
 				else {
 
-					winLose.setText("You win");
-					myUser.addValueToBalance(50);
+					winLose.setText("You lose");
 
 				}
 
@@ -217,6 +216,9 @@ public class BlackjackGame extends Game
 
 	}
 
+
+	//if second hand is greater then dealers hand then win
+	//if 21 is achieved while playing the game on both hands
 	public static void main(String[] args) {
 
 		BlackjackGame view = new BlackjackGame();

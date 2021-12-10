@@ -16,9 +16,9 @@ public class BlackjackPlayer extends BlackjackParticipant {
 			}
 		}
 		
-		handTotals = new int[2];
-		hit();
-		hit();
+		super.handTotals = new int[2];
+		super.hit();
+		super.hit();
 	}
 	
 	public String getCurrentTotalsString() {

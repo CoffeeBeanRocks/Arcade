@@ -1,1 +1,3 @@
-tony|499.0|Stuffed Bear,Toyota Prius
+tony|999525.5
+Ethan|50.0
+David|48.0|Toyota Prius,Toyota Prius

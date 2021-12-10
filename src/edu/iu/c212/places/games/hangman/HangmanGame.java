@@ -4,6 +4,7 @@ import edu.iu.c212.models.User;
 import edu.iu.c212.places.games.Game;
 import edu.iu.c212.utils.http.HttpUtils;
 
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.TimeUnit;
+
 
 public class HangmanGame extends Game implements IHangmanGame
 {
@@ -102,6 +105,11 @@ public class HangmanGame extends Game implements IHangmanGame
             info2.setText("Congratulations on guessing the word "+word+". $15 has been added to your account!");
             user.addValueToBalance(15);
         }
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        }
+        catch (Exception ignored){}
+        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
 
     public boolean containsChar(String word, char character)
