@@ -52,17 +52,25 @@ public class FileUtils {
             String[] userData = scan.nextLine().split("\\|"); //there needs to be an escape sequence before the line because "|" is a metacharacter
             if(userData.length > 2)
             {
-                for(String s : userData)
-                    System.out.println(s);
                 String[] itemNames = userData[2].split(",");
-                List<Item> items = new ArrayList<>();
-                for(int i=0; i<itemNames.length; i++)
-                    items.add(Item.valueOf(itemNames[i]));
-                users.add(new User(userData[0],Double.parseDouble(userData[1]),items));
+                List<Item> myItems = new ArrayList<>();
+                for(String s : itemNames)
+                    myItems.add(getItemFromName(s));
+                users.add(new User(userData[0],Double.parseDouble(userData[1]),myItems));
             }
             else
                 users.add(new User(userData[0],Double.parseDouble(userData[1]),new ArrayList<>()));
         }
         return users;
+    }
+
+    public static Item getItemFromName(String name)
+    {
+        for(Item i : Item.values())
+        {
+            if(i.getReadableName().equals(name))
+                return i;
+        }
+        throw new IllegalArgumentException("Item not found in inventory!");
     }
 }

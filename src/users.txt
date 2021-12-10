@@ -1,1 +1,1 @@
-tony|1000.0
+tony|499.0|Stuffed Bear,Toyota Prius

@@ -35,6 +35,7 @@ public class Arcade implements IArcade
         allPlaces = Arrays.asList(new BlackjackGame(), new HangmanGame(), new GuessTheNumberGame(), new TriviaGame(), new Store(), new Inventory(), new Lobby(this));
         //TODO: Add an exit!
         currentUser = getUserOnArcadeEntry();
+        System.out.println("allUsers: "+allUsers.size());
         transitionArcadeState("Lobby");
     }
 
@@ -72,36 +73,37 @@ public class Arcade implements IArcade
             case "Blackjack" -> {
                 Place bj = allPlaces.get(0);
                 if (validBalance(bj))
-                    bj.onEnter(currentUser);
+                    new BlackjackGame().onEnter(currentUser);
             }
             case "Hangman" -> {
                 Place hm = allPlaces.get(1);
                 if (validBalance(hm))
-                    hm.onEnter(currentUser);
+                    new HangmanGame().onEnter(currentUser);
             }
             case "Guess the Number" -> {
                 Place gtn = allPlaces.get(2);
                 if (validBalance(gtn))
-                    gtn.onEnter(currentUser);
+                    new GuessTheNumberGame().onEnter(currentUser);
             }
             case "Trivia" -> {
                 Place t = allPlaces.get(3);
                 if (validBalance(t))
-                    t.onEnter(currentUser);
+                    new TriviaGame().onEnter(currentUser);
             }
             case "Store" -> {
                 Place s = allPlaces.get(4);
                 if (validBalance(s))
-                    s.onEnter(currentUser);
+                    new Store().onEnter(currentUser);
             }
             case "Inventory" -> {
                 Place i = allPlaces.get(5);
                 if (validBalance(i))
-                    i.onEnter(currentUser);
+                    new Inventory().onEnter(currentUser);
             }
         }
 
         try {
+            System.out.println("Ref 1: " + currentUser + " Ref 2: " + allUsers.get(0));
             FileUtils.writeUserDataToFile(allUsers);
         }
         catch (Exception ignored){}
@@ -120,9 +122,11 @@ public class Arcade implements IArcade
         try {
             System.out.println("Enter username: ");
             String username = ConsoleUtils.readLineFromConsole();
-            System.out.println(FileUtils.getUserDataFromFile().size());
 
-            for(User u : FileUtils.getUserDataFromFile())
+            allUsers = FileUtils.getUserDataFromFile();
+            System.out.println(allUsers.size());
+
+            for(User u : allUsers)
             {
                 if(u.getUsername().equals(username))
                 {
@@ -133,13 +137,11 @@ public class Arcade implements IArcade
             }
             if(user == null)
             {
-                allUsers.add(new User(username, 50, new ArrayList<Item>())); //TODO: User starting balance?
-                user = allUsers.get(allUsers.size()-1);
+                user = new User(username, 50, new ArrayList<Item>());
+                allUsers.add(user); //TODO: User starting balance?
                 FileUtils.writeUserDataToFile(allUsers);
                 System.out.println("Welcome " + username);
             }
-            currentUser = user;
-
         }
         catch (Exception ignored){}
         return user;

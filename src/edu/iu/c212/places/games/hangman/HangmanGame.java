@@ -52,6 +52,7 @@ public class HangmanGame extends Game implements IHangmanGame
         frame.setVisible(true);
 
         //initialize variables
+
         wrongAnswers = 0; //used to determine how many incorrect guesses
         guessedLetters = new ArrayList<>();
         try
