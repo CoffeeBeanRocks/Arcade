@@ -69,18 +69,48 @@ public class Arcade implements IArcade
     {
         switch (newPlaceNameToGoTo)
         {
-            case "Blackjack" -> allPlaces.get(0).onEnter(currentUser);
-            case "Hangman" -> allPlaces.get(1).onEnter(currentUser);
-            case "Guess the Number" -> allPlaces.get(2).onEnter(currentUser);
-            case "Trivia" -> allPlaces.get(3).onEnter(currentUser);
-            case "Store" -> allPlaces.get(4).onEnter(currentUser);
-            case "Inventory" -> allPlaces.get(5).onEnter(currentUser);
+            case "Blackjack" -> {
+                Place bj = allPlaces.get(0);
+                if (validBalance(bj))
+                    bj.onEnter(currentUser);
+            }
+            case "Hangman" -> {
+                Place hm = allPlaces.get(1);
+                if (validBalance(hm))
+                    hm.onEnter(currentUser);
+            }
+            case "Guess the Number" -> {
+                Place gtn = allPlaces.get(2);
+                if (validBalance(gtn))
+                    gtn.onEnter(currentUser);
+            }
+            case "Trivia" -> {
+                Place t = allPlaces.get(3);
+                if (validBalance(t))
+                    t.onEnter(currentUser);
+            }
+            case "Store" -> {
+                Place s = allPlaces.get(4);
+                if (validBalance(s))
+                    s.onEnter(currentUser);
+            }
+            case "Inventory" -> {
+                Place i = allPlaces.get(5);
+                if (validBalance(i))
+                    i.onEnter(currentUser);
+            }
         }
+
         try {
             FileUtils.writeUserDataToFile(allUsers);
         }
         catch (Exception ignored){}
         allPlaces.get(6).onEnter(currentUser); //transition back to lobby
+    }
+
+    private boolean validBalance(Place place)
+    {
+        return currentUser.getBalance() >= place.getEntryFee();
     }
 
     @Override

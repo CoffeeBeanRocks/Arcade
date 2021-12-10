@@ -32,7 +32,6 @@ public class Store extends Place
                        user.getInventory().remove(user.getInventory().indexOf(i));
                        user.addValueToBalance(i.getValue()*.5);
                        System.out.println("You have sold " + i.getReadableName() + " for $" + i.getValue());
-                       //TODO: Save
                     }
                 }
             }
@@ -48,7 +47,6 @@ public class Store extends Place
                         user.subtractValueFromBalance(i.getValue());
                         user.getInventory().add(i);
                         System.out.println("You have bought " + i.getReadableName() + " for $" + i.getValue());
-                        //TODO: Save
                     }
                 }
             }
