@@ -4,8 +4,10 @@ import java.awt.Dimension;
 import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -85,7 +87,6 @@ public class BlackjackGame extends Game
 			winLose.setText("You win");
 			System.out.println(myPlayer.handTotals[0] + " | " + myPlayer.handTotals[1]);
 			myUser.addValueToBalance(50);
-
 		}
 
 		else if (myDealer.getBestTotal() == 21) {
@@ -94,7 +95,6 @@ public class BlackjackGame extends Game
 			stay.setEnabled(false);
 			winLose.setText("You lose");
 			dealerLabel.setText("Dealer has Blackjack");
-
 		}
 
 		HitButtonListener toHit = new HitButtonListener();
@@ -123,7 +123,6 @@ public class BlackjackGame extends Game
 		frame.getContentPane().add(mainPanel);
 		frame.pack();
 		frame.setVisible(true);
-
 	}
 
 	private class HitButtonListener implements ActionListener {
@@ -167,7 +166,6 @@ public class BlackjackGame extends Game
 				stay.setEnabled(false);
 
 				winLose.setText("You Lose");
-
 			}
 		}
 	}

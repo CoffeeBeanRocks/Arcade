@@ -32,7 +32,7 @@ public class Arcade implements IArcade
         {
             allUsers = new ArrayList<>();
         }
-        allPlaces = Arrays.asList(new BlackjackGame(), new HangmanGame(), new GuessTheNumberGame(), new TriviaGame(), new Store(), new Inventory(), new Lobby(this));
+        allPlaces = Arrays.asList(new BlackjackGame(), new HangmanGame(), new GuessTheNumberGame(), new TriviaGame(), new Store(this), new Inventory(), new Lobby(this));
         //TODO: Add an exit!
         currentUser = getUserOnArcadeEntry();
         transitionArcadeState("Lobby");
@@ -71,11 +71,8 @@ public class Arcade implements IArcade
         {
             case "Blackjack" -> {
                 Place bj = allPlaces.get(0);
-                Place newBJ = null;
                 if (validBalance(bj))
-                    newBJ = new BlackjackGame();
-                newBJ.onEnter(currentUser);
-                System.out.println(newBJ.hashCode());
+                    new BlackjackGame().onEnter(currentUser);
             }
             case "Hangman" -> {
                 Place hm = allPlaces.get(1);
@@ -95,7 +92,7 @@ public class Arcade implements IArcade
             case "Store" -> {
                 Place s = allPlaces.get(4);
                 if (validBalance(s))
-                    new Store().onEnter(currentUser);
+                    new Store(this).onEnter(currentUser);
             }
             case "Inventory" -> {
                 Place i = allPlaces.get(5);

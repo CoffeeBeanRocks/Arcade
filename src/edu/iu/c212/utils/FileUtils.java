@@ -72,9 +72,4 @@ public class FileUtils {
         }
         throw new IllegalArgumentException("Item not found in inventory!");
     }
-
-    public static void saveGame() throws IOException
-    {
-        writeUserDataToFile(getUserDataFromFile());
-    }
 }

@@ -1,17 +1,22 @@
 package edu.iu.c212.places;
 
+import edu.iu.c212.Arcade;
 import edu.iu.c212.models.Item;
 import edu.iu.c212.models.User;
 import edu.iu.c212.utils.ConsoleUtils;
 import edu.iu.c212.utils.FileUtils;
 
+import java.io.File;
 import java.util.Arrays;
 
 public class Store extends Place
 {
-    public Store()
+    private Arcade arcade;
+
+    public Store(Arcade arcade)
     {
         super("Store", 0);
+        this.arcade = arcade;
     }
 
     @Override
@@ -52,7 +57,7 @@ public class Store extends Place
                 }
             }
             try {
-                FileUtils.saveGame();
+                arcade.saveUsersToFile();
             }
             catch (Exception ignored){}
             ans = ConsoleUtils.printMenuToConsole("Store", Arrays.asList(StoreAction.values()),true);
