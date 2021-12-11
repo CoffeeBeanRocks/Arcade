@@ -46,6 +46,8 @@ public class Store extends Place
                 Item i = ConsoleUtils.printMenuToConsole("Buy", Arrays.asList(Item.values()), true);
                 if(user.getBalance() < i.getValue())
                     System.out.println("You can't buy this because either you don't have enough money or enough space!");
+                else if(user.getInventory().size()>=3)
+                    System.out.println("You can't buy any more items, your inventory is full!");
                 else
                 {
                     if(Boolean.TRUE.equals(ConsoleUtils.printMenuToConsole("Are you sure?", Arrays.asList(true, false), true)))

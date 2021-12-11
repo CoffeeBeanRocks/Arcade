@@ -34,6 +34,21 @@ public class BlackjackPlayer extends BlackjackParticipant {
 	@Override
 	public int getBestTotal() {
 		// TODO Auto-generated method stub
-		return 0;
+
+		//Implementation not stated in directions
+		if (handTotals[0] <= 21 && handTotals[1] <= 21) {
+
+			return handTotals[1];
+		}
+
+		else if (handTotals[0] <= 21 && handTotals[1] > 21){
+
+			return handTotals[0];
+		}
+
+		else {
+
+			return - 1;
+		}
 	}
 }

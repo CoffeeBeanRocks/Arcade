@@ -117,6 +117,8 @@ public class BlackjackDealer extends BlackjackParticipant {
 	@Override
 	public int getBestTotal() {
 		// TODO Auto-generated method stub
+
+		//Implementation not stated, assumed getter for instance variable
 		return dealerBest;
 	}
 	

@@ -1,3 +1,4 @@
-tony|994435.5|Copper Wire,Stuffed Bear
-Ethan|50.0
-David|48.0|Toyota Prius,Toyota Prius
+tony|993673.5|Copper Wire,IPhone,IPhone
+Ethan|52.0
+David|48.0|Toyota Prius,IPhone,Copper Wire
+1|30.0

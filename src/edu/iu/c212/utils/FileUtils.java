@@ -30,7 +30,7 @@ public class FileUtils {
         {
             contents += u.getUsername()+"|";
             contents += u.getBalance()+"|";
-            for(Item i : u.getInventory()) //TODO: Test what is written when the inventory is empty
+            for(Item i : u.getInventory())
                 contents+=i.getReadableName()+",";
             contents = contents.substring(0,contents.length()-1)+"\n"; //remove final comma
         }
@@ -46,7 +46,7 @@ public class FileUtils {
     {
         Scanner scan = new Scanner(file);
         List<User> users = new ArrayList<>();
-        while(scan.hasNextLine()) //TODO: Test when inventory is empty
+        while(scan.hasNextLine())
         {
             String[] userData = scan.nextLine().split("\\|"); //there needs to be an escape sequence before the line because "|" is a metacharacter
             if(userData.length > 2)

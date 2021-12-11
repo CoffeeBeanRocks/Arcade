@@ -1,5 +1,6 @@
 package edu.iu.c212.places.games.hangman;
 
+import edu.iu.c212.Arcade;
 import edu.iu.c212.models.User;
 import edu.iu.c212.places.games.Game;
 import edu.iu.c212.utils.http.HttpUtils;
@@ -30,10 +31,12 @@ public class HangmanGame extends Game implements IHangmanGame
     private static JLabel info;
     private static JLabel info2;
 
-    public HangmanGame()
+    Arcade arcade;
+    public HangmanGame(Arcade arcade)
     {
         super("Hangman",5);
 
+        this.arcade = arcade;
         ans = null;
         String letters = "abcdefghijklmnopqrstuvwxyz";
         validLetters = new ArrayList<>();
@@ -44,9 +47,6 @@ public class HangmanGame extends Game implements IHangmanGame
     @Override
     public void onEnter(User user)
     {
-        //Entry Fee
-        user.subtractValueFromBalance(5);
-
         //add GUI
         JFrame frame = new JFrame("Hangman");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -68,7 +68,7 @@ public class HangmanGame extends Game implements IHangmanGame
         }
 
         //game loop
-        System.out.println("You've entered hangman! Here are the rules: ");
+        System.out.println("Welcome to hangman! Here are the rules: ");
         System.out.println("1) A random word has been chosen, you need to guess the word letter by letter");
         System.out.println("2) If you guess 6 incorrect letters you lose!");
 
@@ -97,13 +97,13 @@ public class HangmanGame extends Game implements IHangmanGame
         {
             info.setText("You've guessed "+wrongAnswers+" times incorrectly, you lose!");
             info2.setText("The word was: " + word);
-            //TODO: Close GUI
         }
         else //player won
         {
             info.setText("You've guessed the correct word, you win!");
             info2.setText("Congratulations on guessing the word "+word+". $15 has been added to your account!");
             user.addValueToBalance(15);
+            arcade.saveUsersToFile();
         }
         try {
             TimeUnit.SECONDS.sleep(3);

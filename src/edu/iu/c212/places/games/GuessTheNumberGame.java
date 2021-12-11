@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.function.Function;
 
+import edu.iu.c212.Arcade;
 import edu.iu.c212.models.Item;
 import edu.iu.c212.models.User;
 import edu.iu.c212.places.games.Game;
@@ -11,8 +12,10 @@ import edu.iu.c212.utils.ConsoleUtils;
 
 public class GuessTheNumberGame extends Game {
 
-	public GuessTheNumberGame() {
+	Arcade arcade;
+	public GuessTheNumberGame(Arcade arcade) {
 		super("Guess the Number", 5);
+		this.arcade = arcade;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -20,13 +23,11 @@ public class GuessTheNumberGame extends Game {
 	public void onEnter(User user) {
 		// TODO Auto-generated method stub
 		
-		Scanner keyboard = new Scanner(System.in);
-		
 		int guessesRemain = 5;
 		int guess = 0;
 		int ans = (int)(Math.random() * 101);
 		
-		System.out.println(ans);
+		//System.out.println(ans);
 		
 		System.out.println("Welcome to Guess the Number. You'll be guessing a number between 0 and 100");
 		System.out.println("You'll get $10 if you correctly guess the number within 5 tries. Otherwise you get nothing");
@@ -40,6 +41,8 @@ public class GuessTheNumberGame extends Game {
 				
 				System.out.println("Congratulations, you correctly guessed the number!");
 				System.out.println("You guessed it within 5 tries, so you get $10");
+				user.addValueToBalance(10);
+				arcade.saveUsersToFile();
 			}
 			else
 			{

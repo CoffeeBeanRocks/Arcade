@@ -5,6 +5,7 @@ import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
@@ -31,6 +32,7 @@ public class BlackjackGame extends Game
 	public static JLabel winLose;
 	public static JButton hit;
 	public static JButton stay;
+	public static boolean readyToExit;
 
 	public BlackjackGame() {
 
@@ -42,6 +44,7 @@ public class BlackjackGame extends Game
 		hit = new JButton("Hit");
 		stay = new JButton("Stay");
 		bust = false;
+		readyToExit = false;
 	}
 
 	@Override
@@ -54,12 +57,11 @@ public class BlackjackGame extends Game
 
 		this.myUser = user;
 
-		myUser.subtractValueFromBalance(20);
-
-		System.out.println("Dealer: " + myDealer.handTotals[1] + " myPlayer: "+myPlayer.handTotals[1]);
+		//System.out.println("Dealer: " + myDealer.handTotals[1] + " myPlayer: "+myPlayer.handTotals[1]);
 
 		JFrame frame = new JFrame("Blackjack");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.addWindowListener(new WindowClosedListener());
 
 		JPanel mainPanel = new JPanel();
 
@@ -86,7 +88,7 @@ public class BlackjackGame extends Game
 			stay.setEnabled(false);
 			winLose.setText("You win");
 			System.out.println(myPlayer.handTotals[0] + " | " + myPlayer.handTotals[1]);
-			myUser.addValueToBalance(50);
+			//myUser.addValueToBalance(50); //updates balance in window close method
 		}
 
 		else if (myDealer.getBestTotal() == 21) {
@@ -113,6 +115,7 @@ public class BlackjackGame extends Game
 		statusPanel.add(dealerLabel);
 		statusPanel.add(totalsLabel);
 
+		//Instructions state possible 3 event listeners, but example GUI only has 2 and this implementation was achieved with only 2
 		buttonsPanel.add(hit);
 		buttonsPanel.add(stay);
 
@@ -123,6 +126,17 @@ public class BlackjackGame extends Game
 		frame.getContentPane().add(mainPanel);
 		frame.pack();
 		frame.setVisible(true);
+
+		while(!readyToExit) //Sudo thread locking cuz Ayush made this difficult, and I didn't have enough time to implement proper thread locking -Ethan :)
+			//Was not difficult just stupid lol -Ayush
+		{
+			frame.requestFocus();
+			if(readyToExit)
+			{
+				System.out.print("");
+				break;
+			}
+		}
 	}
 
 	private class HitButtonListener implements ActionListener {
@@ -150,7 +164,7 @@ public class BlackjackGame extends Game
 				hit.setEnabled(false);
 				stay.setEnabled(false);
 				winLose.setText("You win");
-				myUser.addValueToBalance(50);
+				//myUser.addValueToBalance(50); //updates balance in window close method
 
 			}
 
@@ -214,26 +228,56 @@ public class BlackjackGame extends Game
 
 	}
 
+	private class WindowClosedListener implements java.awt.event.WindowListener
+	{
 
-	//if second hand is greater then dealers hand then win
-	//if 21 is achieved while playing the game on both hands
-	public static void main(String[] args) {
+		WindowClosedListener(){}
 
-		BlackjackGame view = new BlackjackGame();
+		@Override
+		public void windowOpened(WindowEvent e) {
 
-		Item bear = Item.BEAR;
+		}
 
-		ArrayList<Item> inventory = new ArrayList<Item>();
+		@Override
+		public void windowClosing(WindowEvent e) {
 
-		inventory.add(bear);
+		}
 
-		myUser = new User("Ayush", 50, inventory);
+		@Override
+		public void windowClosed(WindowEvent e)
+		{
+			if(winLose.getText().equals(""))
+			{
+				System.out.println("You have forfeited the game by closing the window early!");
+			}
+			else
+			{
+				System.out.println(winLose.getText());
+				if(winLose.getText().equals("You win"))
+					myUser.addValueToBalance(50);
+			}
+			readyToExit = true;
+		}
 
-		//myUser.subtractValueFromBalance(20);
-		//System.out.println(myUser.getBalance());
-		view.onEnter(myUser);
+		@Override
+		public void windowIconified(WindowEvent e) {
 
+		}
+
+		@Override
+		public void windowDeiconified(WindowEvent e) {
+
+		}
+
+		@Override
+		public void windowActivated(WindowEvent e) {
+
+		}
+
+		@Override
+		public void windowDeactivated(WindowEvent e) {
+
+		}
 	}
-
 }
 

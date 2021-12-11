@@ -16,6 +16,7 @@ import edu.iu.c212.utils.FileUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Arcade implements IArcade
 {
@@ -32,8 +33,7 @@ public class Arcade implements IArcade
         {
             allUsers = new ArrayList<>();
         }
-        allPlaces = Arrays.asList(new BlackjackGame(), new HangmanGame(), new GuessTheNumberGame(), new TriviaGame(), new Store(this), new Inventory(), new Lobby(this));
-        //TODO: Add an exit!
+        allPlaces = Arrays.asList(new BlackjackGame(), new HangmanGame(this), new GuessTheNumberGame(this), new TriviaGame(this), new Store(this), new Inventory(), new Lobby(this));
         currentUser = getUserOnArcadeEntry();
         transitionArcadeState("Lobby");
     }
@@ -72,32 +72,62 @@ public class Arcade implements IArcade
             case "Blackjack" -> {
                 Place bj = allPlaces.get(0);
                 if (validBalance(bj))
+                {
+                    currentUser.subtractValueFromBalance(bj.getEntryFee());
                     new BlackjackGame().onEnter(currentUser);
+                }
+                else
+                    System.out.println("Insufficient funds to enter!");
             }
             case "Hangman" -> {
                 Place hm = allPlaces.get(1);
                 if (validBalance(hm))
-                    new HangmanGame().onEnter(currentUser);
+                {
+                    currentUser.subtractValueFromBalance(hm.getEntryFee());
+                    new HangmanGame(this).onEnter(currentUser);
+                }
+                else
+                    System.out.println("Insufficient funds to enter!");
             }
             case "Guess the Number" -> {
                 Place gtn = allPlaces.get(2);
                 if (validBalance(gtn))
-                    new GuessTheNumberGame().onEnter(currentUser);
+                {
+                    currentUser.subtractValueFromBalance(gtn.getEntryFee());
+                    new GuessTheNumberGame(this).onEnter(currentUser);
+                }
+                else
+                    System.out.println("Insufficient funds to enter!");
             }
             case "Trivia" -> {
                 Place t = allPlaces.get(3);
                 if (validBalance(t))
-                    new TriviaGame().onEnter(currentUser);
+                {
+                    currentUser.subtractValueFromBalance(t.getEntryFee());
+                    new TriviaGame(this).onEnter(currentUser);
+                }
+                else
+                    System.out.println("Insufficient funds to enter!");
             }
             case "Store" -> {
                 Place s = allPlaces.get(4);
                 if (validBalance(s))
+                {
+                    currentUser.subtractValueFromBalance(s.getEntryFee());
                     new Store(this).onEnter(currentUser);
+                }
+                else
+                    System.out.println("Insufficient funds to enter!");
             }
             case "Inventory" -> {
                 Place i = allPlaces.get(5);
                 if (validBalance(i))
+                {
+                    currentUser.subtractValueFromBalance(i.getEntryFee());
                     new Inventory().onEnter(currentUser);
+                }
+                else
+                    System.out.println("Insufficient funds to enter!");
             }
         }
 
